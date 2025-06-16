@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="?android:attr/colorBackground"
+    android:contentDescription="@string/app_name">
+
+    <ImageView
+        android:id="@+id/image_mianbu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/mianbu" />
+
+    <ImageView
+        android:id="@+id/image_hudiejie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/hudiejie" />
+
+    <ImageView
+        android:id="@+id/image_toufa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/toufa" />
+
+
+    <ImageView
+        android:id="@+id/image_yanjin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/yanjin" />
+
+
+
+</FrameLayout>

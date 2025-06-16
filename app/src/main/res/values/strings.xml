@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">文字时钟</string>
+    <string name="its_text">现在是</string>
+    <string name="hours_text">一点</string>
+    <string name="minutes">二十四分</string>
+    <string name="save">保存并应用</string>
+    <string name="hudiejie">选择蝴蝶结颜色</string>
+    <string name="toufa">选择头发颜色</string>
+    <string name="color">自定义角色颜色</string>
+    <string name="config_title">换衣间</string>
+    <string name="config_hint">点击下方的色块来更改颜色</string>
+    <string name="touhou_text">99999</string>
+</resources>
