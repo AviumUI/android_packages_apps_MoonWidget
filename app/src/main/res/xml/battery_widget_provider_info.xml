@@ -4,11 +4,10 @@
     android:minHeight="110dp"
     android:targetCellWidth="2"
     android:targetCellHeight="2"
-    android:updatePeriodMillis="86400000"
-    android:initialLayout="@layout/widget_character"
-    android:previewImage="@drawable/hudiejie"
+    android:updatePeriodMillis="1800000"
+    android:initialLayout="@layout/widget_battery"
+    android:previewImage="@mipmap/ic_launcher"
+    android:previewLayout="@layout/widget_battery"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:description="@string/character_widget_description"
-    android:configure="org.exthm.moonwidget.CharacterConfigActivity">
-    </appwidget-provider>
+    android:description="@string/battery_description" />

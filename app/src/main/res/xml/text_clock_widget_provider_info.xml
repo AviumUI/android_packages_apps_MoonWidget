@@ -11,4 +11,3 @@
     android:resizeMode="horizontal|vertical"
     android:previewLayout="@layout/widget_text_clock"
     android:widgetCategory="home_screen" />
-

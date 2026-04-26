@@ -24,7 +24,6 @@ package org.exthm.moonwidget
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -49,9 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -59,7 +56,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
-class WidgetConfigActivity : AppCompatActivity() {
+class CharacterConfigActivity : AppCompatActivity() {
 
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
 
@@ -105,10 +102,7 @@ class WidgetConfigActivity : AppCompatActivity() {
                         val appWidgetManager = AppWidgetManager.getInstance(this)
                         CharacterWidgetProvider.updateAppWidget(this, appWidgetManager, appWidgetId)
 
-                        val resultValue = Intent()
-                        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                        setResult(Activity.RESULT_OK, resultValue)
-                        finish()
+                        finishWidgetConfiguration(appWidgetId)
                     }
                 )
             }
@@ -232,14 +226,14 @@ fun WidgetPreview(
         bowBitmap?.let {
             Image(
                 bitmap = it.asImageBitmap(),
-                contentDescription = "Bow Preview",
+                contentDescription = stringResource(R.string.character_preview_bow),
                 modifier = Modifier.fillMaxSize()
             )
         }
         hairBitmap?.let {
             Image(
                 bitmap = it.asImageBitmap(),
-                contentDescription = "Hair Preview",
+                contentDescription = stringResource(R.string.character_preview_hair),
                 modifier = Modifier.fillMaxSize()
             )
         }

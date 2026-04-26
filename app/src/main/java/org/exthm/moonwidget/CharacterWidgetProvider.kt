@@ -34,6 +34,7 @@ import android.graphics.PorterDuffColorFilter
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import java.util.Calendar
 
 class CharacterWidgetProvider : AppWidgetProvider() {
 
@@ -58,6 +59,7 @@ class CharacterWidgetProvider : AppWidgetProvider() {
             val bowColor = prefs.getInt("bow_color", Color.parseColor("#E91E63"))
 
             val views = RemoteViews(context.packageName, R.layout.widget_character)
+            views.setTextViewText(R.id.text_character_greeting, greeting(context))
 
             val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
 
@@ -83,7 +85,7 @@ class CharacterWidgetProvider : AppWidgetProvider() {
             }
 
 
-            val intent = Intent(context, WidgetConfigActivity::class.java)
+            val intent = Intent(context, CharacterConfigActivity::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
 
             val pendingIntent = PendingIntent.getActivity(
@@ -95,6 +97,15 @@ class CharacterWidgetProvider : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
+        }
+
+        private fun greeting(context: Context): String {
+            return when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+                in 5..11 -> context.getString(R.string.character_morning)
+                in 12..17 -> context.getString(R.string.character_afternoon)
+                in 18..22 -> context.getString(R.string.character_evening)
+                else -> context.getString(R.string.character_night)
+            }
         }
 
         private fun getBitmapFromVectorDrawable(context: Context, drawableId: Int, color: Int, targetWidth: Int, targetHeight: Int): Bitmap? {
@@ -127,5 +138,9 @@ class CharacterWidgetProvider : AppWidgetProvider() {
             wrappedDrawable.draw(canvas)
             return bitmap
         }
+    }
+
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        appWidgetIds.forEach { WidgetPrefs.clear(context, it) }
     }
 }

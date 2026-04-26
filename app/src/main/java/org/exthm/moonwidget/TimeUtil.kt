@@ -22,6 +22,7 @@
 package org.exthm.moonwidget
 
 import android.content.Context
+import android.text.format.DateFormat
 import java.util.Calendar
 import java.util.Locale
 
@@ -41,25 +42,37 @@ object TimeUtil {
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
+        val use24Hour = DateFormat.is24HourFormat(context)
 
         return if (locale.language == Locale.CHINESE.language) {
-            getChineseFormattedTime(hour, minute)
+            getChineseFormattedTime(context, hour, minute, use24Hour)
         } else {
-            getEnglishFormattedTime(hour, minute)
+            getEnglishFormattedTime(context, hour, minute, use24Hour)
         }
     }
 
-    private fun getChineseFormattedTime(hour: Int, minute: Int): FormattedTime {
-        val intro = "现在是"
-        val hourText = toChineseHour(hour) + "点"
-        val minuteText = toChineseMinute(minute) + "分"
+    private fun getChineseFormattedTime(
+        context: Context,
+        hour: Int,
+        minute: Int,
+        use24Hour: Boolean
+    ): FormattedTime {
+        val intro = context.getString(R.string.word_clock_intro)
+        val displayHour = if (use24Hour) hour else if (hour % 12 == 0) 12 else hour % 12
+        val hourText = toChineseHour(displayHour) + "点"
+        val minuteText = if (minute == 0) toChineseMinute(minute) else toChineseMinute(minute) + "分"
         return FormattedTime(intro, hourText, minuteText)
     }
 
-    private fun getEnglishFormattedTime(hour: Int, minute: Int): FormattedTime {
-        val intro = "It's"
-        val hour12 = if (hour % 12 == 0) 12 else hour % 12
-        val hourText = toEnglishNumber(hour12)
+    private fun getEnglishFormattedTime(
+        context: Context,
+        hour: Int,
+        minute: Int,
+        use24Hour: Boolean
+    ): FormattedTime {
+        val intro = context.getString(R.string.word_clock_intro)
+        val displayHour = if (use24Hour) hour else if (hour % 12 == 0) 12 else hour % 12
+        val hourText = toEnglishNumber(displayHour)
         val minuteText = toEnglishNumber(minute)
         return FormattedTime(intro, hourText, minuteText)
     }
