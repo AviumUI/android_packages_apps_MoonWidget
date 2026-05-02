@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2025-2026 The AviumUI Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <string name="app_name">MoonWidget</string>
+    <string name="its_text">現在是</string>
+    <string name="hours_text">一點</string>
+    <string name="minutes">二十四分</string>
+    <string name="save">保存並套用</string>
+    <string name="hudiejie">選擇蝴蝶結顏色</string>
+    <string name="toufa">選擇頭髮顏色</string>
+    <string name="color">自訂角色顏色</string>
+    <string name="config_title">換衣間</string>
+    <string name="config_hint">點按下方的色塊來更改顏色</string>
+    <string name="touhou_text">99999</string>
+    <string name="cancel">取消</string>
+    <string name="done">完成</string>
+    <string name="refresh">重新整理</string>
+    <string name="word_clock_intro">現在是</string>
+    <string name="word_clock_widget_name">文字時鐘</string>
+    <string name="word_clock_description"></string>
+    <string name="word_clock_format_12_hour">十二小時制</string>
+    <string name="word_clock_format_24_hour">二十四小時制</string>
+    <string name="character_widget_name">may</string>
+    <string name="character_widget_description">maybe</string>
+    <string name="character_preview_hair">頭髮預覽</string>
+    <string name="character_preview_bow">蝴蝶結預覽</string>
+    <string name="character_morning">早晨好</string>
+    <string name="character_afternoon">下午好</string>
+    <string name="character_evening">晚上好</string>
+    <string name="character_night">晚安</string>
+    <string name="moon_phase_widget_name">月相</string>
+    <string name="moon_phase_description">根據本地日期計算即時月相</string>
+    <string name="moon_phase_config_title">月相樣式</string>
+    <string name="moon_phase_show_details">顯示詳細資訊</string>
+    <string name="moon_phase_today">今日月相</string>
+    <string name="moon_phase_illumination">照亮度 %1$d%%</string>
+    <string name="moon_phase_next">距%1$s %2$d天</string>
+    <string name="moon_phase_new">新月</string>
+    <string name="moon_phase_waxing_crescent">娥眉月</string>
+    <string name="moon_phase_first_quarter">上弦月</string>
+    <string name="moon_phase_waxing_gibbous">盈凸月</string>
+    <string name="moon_phase_full">滿月</string>
+    <string name="moon_phase_waning_gibbous">虧凸月</string>
+    <string name="moon_phase_last_quarter">下弦月</string>
+    <string name="moon_phase_waning_crescent">殘月</string>
+    <string name="countdown_widget_name">倒數日</string>
+    <string name="countdown_description">追蹤距離某天還有多久</string>
+    <string name="countdown_config_title">倒數日期</string>
+    <string name="countdown_title_label">標題</string>
+    <string name="countdown_default_title">重要日子</string>
+    <string name="countdown_year">年</string>
+    <string name="countdown_month">月</string>
+    <string name="countdown_day">日</string>
+    <string name="countdown_days_left">還剩 %1$d 天</string>
+    <string name="countdown_days_since">已過去 %1$d 天</string>
+    <string name="countdown_today">就是今天</string>
+    <string name="countdown_target_date">目標 %1$s</string>
+    <string name="countdown_invalid_date">請輸入有效日期。</string>
+    <string name="battery_widget_name">電池</string>
+    <string name="battery_description">即時電量與充電狀態</string>
+    <string name="battery_level">%1$d%%</string>
+    <string name="battery_charging">正在充電</string>
+    <string name="battery_full">已充滿</string>
+    <string name="battery_not_charging">未在充電</string>
+    <string name="battery_discharging">電池供電</string>
+    <string name="battery_unknown">未知狀態</string>
+    <string name="battery_temperature">%1$.1f°C</string>
+    <string name="battery_health_good">電池良好</string>
+    <string name="battery_health_overheat">溫度過高</string>
+    <string name="battery_health_dead">建議更換電池</string>
+    <string name="battery_health_voltage">電壓異常</string>
+    <string name="battery_health_cold">溫度過低</string>
+</resources>
