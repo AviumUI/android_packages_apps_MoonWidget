@@ -27,17 +27,4 @@
         android:textColor="@color/widget_on_surface"
         android:textSize="34sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/text_countdown_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/widget_surface_variant"
-        android:paddingStart="10dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="4dp"
-        android:text="@string/countdown_target_date"
-        android:textColor="@color/widget_secondary"
-        android:textSize="13sp" />
 </LinearLayout>

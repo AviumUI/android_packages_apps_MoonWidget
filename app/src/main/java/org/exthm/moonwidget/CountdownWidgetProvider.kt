@@ -15,8 +15,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
 
 class CountdownWidgetProvider : AppWidgetProvider() {
@@ -65,7 +63,6 @@ class CountdownWidgetProvider : AppWidgetProvider() {
             val targetDate = loadTargetDate(context, appWidgetId)
             val title = loadTitle(context, appWidgetId)
             val days = ChronoUnit.DAYS.between(LocalDate.now(), targetDate).toInt()
-            val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
             val daysText = when {
                 days > 0 -> context.getString(R.string.countdown_days_left, days)
                 days < 0 -> context.getString(R.string.countdown_days_since, -days)
@@ -75,10 +72,6 @@ class CountdownWidgetProvider : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.widget_countdown)
             views.setTextViewText(R.id.text_countdown_title, title)
             views.setTextViewText(R.id.text_countdown_days, daysText)
-            views.setTextViewText(
-                R.id.text_countdown_date,
-                context.getString(R.string.countdown_target_date, targetDate.format(formatter))
-            )
             views.setOnClickPendingIntent(R.id.widget_root, configIntent(context, appWidgetId))
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }

@@ -8,9 +8,12 @@
 
 package org.exthm.moonwidget
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -28,27 +31,41 @@ import android.provider.Settings
 import android.widget.RemoteViews
 
 class BatteryWidgetProvider : AppWidgetProvider() {
+    override fun onEnabled(context: Context) {
+        registerBatteryReceiver(context)
+        scheduleNextRefresh(context)
+    }
+
+    override fun onDisabled(context: Context) {
+        unregisterBatteryReceiver(context)
+        cancelNextRefresh(context)
+    }
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+        registerBatteryReceiver(context)
         appWidgetIds.forEach { updateAppWidget(context, appWidgetManager, it) }
+        scheduleNextRefresh(context)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         when (intent.action) {
+            Intent.ACTION_BATTERY_CHANGED,
             Intent.ACTION_POWER_CONNECTED,
             Intent.ACTION_POWER_DISCONNECTED,
             Intent.ACTION_BATTERY_LOW,
             Intent.ACTION_BATTERY_OKAY,
             Intent.ACTION_WALLPAPER_CHANGED,
             Intent.ACTION_CONFIGURATION_CHANGED,
+            ACTION_REFRESH,
             ACTION_OVERLAY_CHANGED -> {
-                val manager = AppWidgetManager.getInstance(context)
-                val ids = manager.getAppWidgetIds(ComponentName(context, javaClass))
-                ids.forEach { updateAppWidget(context, manager, it) }
+                registerBatteryReceiver(context)
+                updateAllWidgets(context)
+                scheduleNextRefresh(context)
             }
         }
     }
@@ -60,10 +77,85 @@ class BatteryWidgetProvider : AppWidgetProvider() {
         newOptions: Bundle
     ) {
         updateAppWidget(context, appWidgetManager, appWidgetId)
+        scheduleNextRefresh(context)
     }
 
     companion object {
         private const val ACTION_OVERLAY_CHANGED = "android.intent.action.OVERLAY_CHANGED"
+        private const val ACTION_REFRESH = "org.exthm.moonwidget.ACTION_BATTERY_REFRESH"
+        private const val REFRESH_INTERVAL_MILLIS = 5 * 60 * 1000L
+        private const val REQUEST_REFRESH = 7000
+        private var batteryReceiverRegistered = false
+
+        private val batteryChangedReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.action == Intent.ACTION_BATTERY_CHANGED) {
+                    updateAllWidgets(context)
+                    scheduleNextRefresh(context)
+                }
+            }
+        }
+
+        @Synchronized
+        private fun registerBatteryReceiver(context: Context) {
+            if (batteryReceiverRegistered) return
+
+            context.applicationContext.registerReceiver(
+                batteryChangedReceiver,
+                IntentFilter(Intent.ACTION_BATTERY_CHANGED),
+                Context.RECEIVER_NOT_EXPORTED
+            )
+            batteryReceiverRegistered = true
+        }
+
+        @Synchronized
+        private fun unregisterBatteryReceiver(context: Context) {
+            if (!batteryReceiverRegistered) return
+
+            runCatching {
+                context.applicationContext.unregisterReceiver(batteryChangedReceiver)
+            }
+            batteryReceiverRegistered = false
+        }
+
+        private fun updateAllWidgets(context: Context) {
+            val manager = AppWidgetManager.getInstance(context)
+            val ids = manager.getAppWidgetIds(ComponentName(context, BatteryWidgetProvider::class.java))
+            ids.forEach { updateAppWidget(context, manager, it) }
+        }
+
+        @SuppressLint("ScheduleExactAlarm")
+        private fun scheduleNextRefresh(context: Context) {
+            val manager = AppWidgetManager.getInstance(context)
+            val ids = manager.getAppWidgetIds(ComponentName(context, BatteryWidgetProvider::class.java))
+            if (ids.isEmpty()) {
+                cancelNextRefresh(context)
+                return
+            }
+
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + REFRESH_INTERVAL_MILLIS,
+                refreshIntent(context)
+            )
+        }
+
+        private fun cancelNextRefresh(context: Context) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.cancel(refreshIntent(context))
+        }
+
+        private fun refreshIntent(context: Context): PendingIntent {
+            val intent = Intent(context, BatteryWidgetProvider::class.java)
+                .setAction(ACTION_REFRESH)
+            return PendingIntent.getBroadcast(
+                context,
+                REQUEST_REFRESH,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
 
         fun updateAppWidget(
             context: Context,
