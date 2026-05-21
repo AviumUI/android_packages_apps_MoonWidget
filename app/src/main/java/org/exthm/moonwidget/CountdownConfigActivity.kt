@@ -39,6 +39,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import java.time.DateTimeException
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class CountdownConfigActivity : AppCompatActivity() {
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
@@ -85,6 +87,7 @@ fun CountdownConfigScreen(
     var month by remember { mutableStateOf(initialDate.monthValue.toString()) }
     var day by remember { mutableStateOf(initialDate.dayOfMonth.toString()) }
     val parsedDate = remember(year, month, day) { parseDateOrNull(year, month, day) }
+    val dateFormatter = remember { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(R.string.countdown_config_title)) }) }
@@ -131,6 +134,15 @@ fun CountdownConfigScreen(
                 Text(
                     text = stringResource(R.string.countdown_invalid_date),
                     color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            } else {
+                Text(
+                    text = stringResource(
+                        R.string.countdown_target_date,
+                        parsedDate.format(dateFormatter)
+                    ),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
